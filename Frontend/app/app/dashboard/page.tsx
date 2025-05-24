@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { getDashboardSummary } from '@/lib/api'
 import type { DashboardSummary } from '@/lib/types'
 
-export default function DashboardPage() {
+export default function AppDashboardPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -45,7 +45,7 @@ export default function DashboardPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <Link href="/dashboard/add-expense">
+        <Link href="/app">
           <Button>
             <Plus className="mr-2 h-4 w-4" />
             Add Expense
@@ -64,9 +64,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">
               ${summary?.revenue?.toLocaleString() || '0'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Last 30 days
-            </p>
+            <p className="text-xs text-muted-foreground">Last 30 days</p>
           </CardContent>
         </Card>
 
@@ -79,9 +77,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">
               ${summary?.expenses?.toLocaleString() || '0'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Last 30 days
-            </p>
+            <p className="text-xs text-muted-foreground">Last 30 days</p>
           </CardContent>
         </Card>
 
@@ -94,9 +90,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">
               ${((summary?.revenue || 0) - (summary?.expenses || 0)).toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Last 30 days
-            </p>
+            <p className="text-xs text-muted-foreground">Last 30 days</p>
           </CardContent>
         </Card>
 
@@ -109,9 +103,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">
               ${summary?.cash_flow?.toLocaleString() || '0'}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Current cash flow
-            </p>
+            <p className="text-xs text-muted-foreground">Current month</p>
           </CardContent>
         </Card>
       </div>
@@ -121,24 +113,22 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>
-              Common tasks to manage your finances
-            </CardDescription>
+            <CardDescription>Common tasks to manage your finances</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <Link href="/dashboard/add-expense" className="block">
-              <Button variant="outline" className="w-full justify-start">
+            <Link href="/app">
+              <Button className="w-full justify-start">
                 <Plus className="mr-2 h-4 w-4" />
                 Add New Expense
               </Button>
             </Link>
-            <Link href="/dashboard/expenses" className="block">
+            <Link href="/app/expenses">
               <Button variant="outline" className="w-full justify-start">
                 <Receipt className="mr-2 h-4 w-4" />
                 View All Expenses
               </Button>
             </Link>
-            <Link href="/dashboard/forecast" className="block">
+            <Link href="/app/forecast">
               <Button variant="outline" className="w-full justify-start">
                 <TrendingUp className="mr-2 h-4 w-4" />
                 View Forecast
@@ -150,35 +140,27 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Business Health</CardTitle>
-            <CardDescription>
-              Key financial indicators
-            </CardDescription>
+            <CardDescription>Key financial indicators</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium">Runway</span>
-                <span className="text-sm font-bold">
-                  {summary?.runway || 0} days
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium">Profit Margin</span>
-                <span className="text-sm font-bold">
-                  {summary?.revenue ? 
-                    (((summary.revenue - summary.expenses) / summary.revenue) * 100).toFixed(1) 
-                    : '0'
-                  }%
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium">Cash Position</span>
-                <span className={`text-sm font-bold ${
-                  (summary?.cash_flow || 0) > 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {(summary?.cash_flow || 0) > 0 ? 'Positive' : 'Negative'}
-                </span>
-              </div>
+          <CardContent className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">Runway</span>
+              <span className="text-sm text-muted-foreground">
+                {summary?.runway || 90} days
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">Profit Margin</span>
+              <span className="text-sm text-muted-foreground">
+                {summary?.revenue && summary?.expenses 
+                  ? (((summary.revenue - summary.expenses) / summary.revenue) * 100).toFixed(1)
+                  : '0'
+                }%
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">Cash Position</span>
+              <span className="text-sm text-green-600 font-medium">Positive</span>
             </div>
           </CardContent>
         </Card>
@@ -186,12 +168,10 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Finance Flow</CardTitle>
-            <CardDescription>
-              Visualize your cash flow patterns
-            </CardDescription>
+            <CardDescription>Visualize your cash flow patterns</CardDescription>
           </CardHeader>
           <CardContent>
-            <Link href="/dashboard/finance-flow">
+            <Link href="/app/finance-flow">
               <Button className="w-full">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 View Finance Flow

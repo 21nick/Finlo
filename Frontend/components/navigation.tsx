@@ -10,10 +10,7 @@ import { Home, BarChart3, Receipt, TrendingUp, Menu, X, DollarSign, MessageSquar
 
 const navigation = [
   { name: "Home", href: "/app", icon: Home, description: "Add expenses & quick overview" },
-  // Change line 13 from:
   { name: "Dashboard", href: "/app/dashboard", icon: BarChart3, description: "Financial overview & charts" },
-  // To:
-  { name: "Dashboard", href: "/dashboard", icon: BarChart3, description: "Financial overview & charts" },
   { name: "Expenses", href: "/app/expenses", icon: Receipt, description: "View & manage all expenses" },
   { name: "Forecast", href: "/app/forecast", icon: TrendingUp, description: "Financial predictions" },
   { name: "Finance Flow", href: "/app/finance-flow", icon: DollarSign, description: "Advanced AP/AR management" },
